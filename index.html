@@ -3,718 +3,235 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Naija Fuel — Nigerian Gym Meal Planner</title>
+<title>Naija Fuel — Nigerian Training &amp; Nutrition Platform</title>
+<meta name="description" content="Plan your meals and training week around real Nigerian dishes and realistic workouts, built for muscle gain, fat loss, or maintenance." />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<style>
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  :root{
-    --bg:#FAFBF7;
-    --surface:#FFFFFF;
-    --green:#1F4E3D;
-    --green-deep:#163829;
-    --green-soft:#E3EEE7;
-    --pepper:#E8542E;
-    --pepper-soft:#FCE4DC;
-    --pepper-pale:#FDF1ED;
-    --ink:#22251F;
-    --muted:#737B70;
-    --line:rgba(34,37,31,0.10);
-    --radius-sm:8px;
-    --radius-md:14px;
-    --radius-lg:24px;
-  }
-  html{scroll-behavior:smooth;}
-  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;}
-  h1,h2,h3{font-family:'Fraunces',serif;}
-  ::selection{background:var(--pepper-soft);}
-
-  /* focus visibility */
-  a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{
-    outline:2.5px solid var(--pepper); outline-offset:2px;
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}
-  }
-
-  /* ══ NAV ══ */
-  nav{
-    position:sticky;top:0;z-index:50;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:16px 6%;
-    background:rgba(250,251,247,0.88);backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .brand{display:flex;align-items:center;gap:9px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--green-deep);text-decoration:none;}
-  .brand-mark{width:30px;height:30px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:15px;}
-  .nav-cta{background:var(--green);color:#fff;font-size:14px;font-weight:600;padding:9px 20px;border-radius:99px;text-decoration:none;transition:background .15s,transform .1s;border:none;cursor:pointer;}
-  .nav-cta:hover{background:var(--green-deep);transform:translateY(-1px);}
-
-  /* ══ HERO ══ */
-  .hero{padding:72px 6% 56px;max-width:1180px;margin:0 auto;}
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:7px;
-    background:var(--pepper-pale);color:var(--pepper);
-    font-size:12.5px;font-weight:600;letter-spacing:.02em;
-    padding:6px 14px;border-radius:99px;margin-bottom:22px;
-  }
-  .hero h1{font-size:clamp(36px,5.6vw,58px);line-height:1.06;font-weight:600;color:var(--green-deep);max-width:760px;letter-spacing:-0.01em;}
-  .hero h1 em{font-style:italic;color:var(--pepper);font-weight:500;}
-  .hero p{font-size:clamp(16px,2vw,18.5px);color:var(--muted);max-width:560px;margin-top:20px;}
-  .hero-row{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;}
-  .btn-primary{
-    background:var(--green);color:#fff;padding:14px 28px;border-radius:99px;
-    font-size:15px;font-weight:600;border:none;cursor:pointer;text-decoration:none;
-    display:inline-flex;align-items:center;gap:8px;transition:background .15s,transform .1s;
-  }
-  .btn-primary:hover{background:var(--green-deep);transform:translateY(-1px);}
-  .btn-ghost{
-    background:transparent;color:var(--green-deep);padding:14px 28px;border-radius:99px;
-    font-size:15px;font-weight:600;border:1.5px solid var(--line);cursor:pointer;text-decoration:none;
-    display:inline-flex;align-items:center;gap:8px;transition:background .15s,border-color .15s;
-  }
-  .btn-ghost:hover{background:var(--green-soft);border-color:var(--green);}
-
-  .hero-stats{display:flex;gap:36px;margin-top:52px;padding-top:32px;border-top:1px solid var(--line);flex-wrap:wrap;}
-  .stat-num{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--green-deep);}
-  .stat-label{font-size:12.5px;color:var(--muted);margin-top:2px;}
-
-  /* ══ WEEK STRIP (signature element) ══ */
-  .week-section{padding:8px 6% 64px;max-width:1180px;margin:0 auto;}
-  .week-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;gap:16px;flex-wrap:wrap;}
-  .section-label{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pepper);margin-bottom:8px;}
-  .section-heading{font-size:clamp(24px,3.4vw,32px);font-weight:600;color:var(--green-deep);}
-  .week-actions{display:flex;gap:10px;}
-  .btn-small{
-    font-size:13px;font-weight:600;padding:8px 16px;border-radius:99px;
-    border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;
-    transition:all .15s;
-  }
-  .btn-small:hover{border-color:var(--pepper);color:var(--pepper);}
-
-  .week-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
-  .day-card{
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);
-    padding:16px 14px;display:flex;flex-direction:column;gap:10px;min-height:168px;
-    cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s;
-  }
-  .day-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,78,61,0.08);border-color:rgba(31,78,61,0.2);}
-  .day-card.today{border-color:var(--pepper);background:var(--pepper-pale);}
-  .day-name{font-size:13px;font-weight:700;color:var(--green-deep);}
-  .day-card.today .day-name{color:var(--pepper);}
-  .day-ring-wrap{display:flex;align-items:center;justify-content:center;margin:4px 0;}
-  .day-cal{font-size:11px;color:var(--muted);text-align:center;}
-  .day-cal strong{display:block;font-size:17px;color:var(--ink);font-family:'Fraunces',serif;font-weight:600;}
-  .day-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;}
-  .day-pill{
-    font-size:9.5px;font-weight:600;background:var(--green-soft);color:var(--green-deep);
-    padding:3px 7px;border-radius:99px;white-space:nowrap;
-  }
-  .day-pill.empty{background:transparent;border:1px dashed var(--line);color:var(--muted);}
-  @media (max-width:900px){.week-strip{grid-template-columns:repeat(4,1fr);}}
-  @media (max-width:560px){.week-strip{grid-template-columns:repeat(2,1fr);}}
-
-  /* ══ PLANNER ══ */
-  #planner{padding:8px 6% 80px;max-width:1180px;margin:0 auto;}
-  .planner-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:start;}
-  @media (max-width:980px){.planner-grid{grid-template-columns:1fr;}}
-
-  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;}
-  .panel h2{font-size:22px;font-weight:600;color:var(--green-deep);margin-bottom:6px;}
-  .panel-sub{font-size:14px;color:var(--muted);margin-bottom:26px;}
-
-  .field-row{margin-bottom:16px;}
-  .field-row label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.03em;}
-  .field-row select{
-    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius-sm);
-    font-size:15px;font-family:inherit;color:var(--ink);background:var(--bg);
-    appearance:none;cursor:pointer;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23737B70' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat:no-repeat;background-position:right 14px center;
-    transition:border-color .15s,box-shadow .15s;
-  }
-  .field-row select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(31,78,61,0.10);outline:none;}
-  .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-
-  .meal-preview{
-    display:flex;gap:14px;align-items:flex-start;background:var(--bg);border:1px solid var(--line);
-    border-radius:var(--radius-md);padding:16px;margin:18px 0;
-  }
-  .meal-preview-emoji{font-size:30px;flex-shrink:0;}
-  .meal-preview h4{font-size:14.5px;font-weight:700;margin-bottom:3px;}
-  .meal-preview p{font-size:12.5px;color:var(--muted);line-height:1.5;}
-  .meal-preview .cals{font-size:12px;font-weight:700;color:var(--pepper);margin-top:6px;}
-
-  .submit-btn{
-    width:100%;background:var(--green);color:#fff;padding:14px;border-radius:99px;
-    border:none;font-size:15px;font-weight:600;cursor:pointer;transition:background .15s,transform .1s;
-    margin-top:6px;
-  }
-  .submit-btn:hover{background:var(--green-deep);transform:translateY(-1px);}
-
-  .tip-box{
-    margin-top:24px;background:var(--green-soft);border-radius:var(--radius-md);
-    padding:16px 18px;font-size:13.5px;color:var(--green-deep);display:flex;gap:10px;
-  }
-  .tip-box strong{font-weight:700;}
-
-  .suggestion-panel{margin-top:18px;border:1px dashed var(--line);border-radius:var(--radius-md);padding:18px;}
-  .suggestion-panel h3{font-size:14px;font-weight:700;color:var(--green-deep);margin-bottom:8px;}
-  .suggestion-card{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;}
-  .suggestion-card .emoji{font-size:26px;}
-  .suggestion-card h4{font-size:14px;font-weight:700;}
-  .suggestion-card p{font-size:12.5px;color:var(--muted);margin-top:2px;}
-  .secondary-button{
-    font-size:13px;font-weight:600;padding:8px 16px;border-radius:99px;
-    border:1px solid var(--line);background:var(--surface);color:var(--green-deep);cursor:pointer;
-    transition:all .15s;
-  }
-  .secondary-button:hover{border-color:var(--green);background:var(--green-soft);}
-
-  /* ══ SUMMARY PANEL ══ */
-  .summary-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px;gap:12px;flex-wrap:wrap;}
-  .stats-row{display:flex;gap:14px;margin-bottom:22px;flex-wrap:wrap;}
-  .stat-chip{
-    flex:1;min-width:120px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md);
-    padding:14px 16px;
-  }
-  .stat-chip .label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);}
-  .stat-chip .value{font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--green-deep);margin-top:3px;}
-  .stat-chip.accent .value{color:var(--pepper);}
-
-  .plan-table{width:100%;border-collapse:collapse;font-size:14px;}
-  .plan-table thead th{
-    text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
-    color:var(--muted);padding:0 12px 10px;border-bottom:1px solid var(--line);
-  }
-  .plan-table tbody td{padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:middle;}
-  .plan-table tbody tr:last-child td{border-bottom:none;}
-  .plan-table .day-badge{font-weight:700;color:var(--green-deep);font-size:13px;}
-  .plan-table .meal-time{
-    font-size:11px;font-weight:600;background:var(--green-soft);color:var(--green-deep);
-    padding:3px 9px;border-radius:99px;display:inline-block;
-  }
-  .plan-table .cal-val{font-weight:700;color:var(--pepper);}
-  .remove-btn{
-    background:none;border:none;cursor:pointer;color:var(--muted);font-size:17px;
-    padding:4px 8px;border-radius:6px;transition:all .15s;
-  }
-  .remove-btn:hover{color:var(--pepper);background:var(--pepper-pale);}
-  .empty-row td{text-align:center;color:var(--muted);padding:36px 12px;font-size:14px;}
-
-  /* ══ MEALS GRID ══ */
-  #meals{padding:8px 6% 80px;max-width:1180px;margin:0 auto;}
-  .meals-head{margin-bottom:32px;}
-  .filter-bar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:28px;}
-  .filter-btn{
-    font-size:13px;font-weight:600;padding:8px 17px;border-radius:99px;
-    border:1px solid var(--line);background:var(--surface);color:var(--muted);
-    cursor:pointer;transition:all .15s;
-  }
-  .filter-btn:hover,.filter-btn.active{background:var(--green);color:#fff;border-color:var(--green);}
-  .meal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;}
-  .meal-card{
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-md);
-    padding:22px;transition:transform .15s,box-shadow .15s;
-  }
-  .meal-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,0.06);}
-  .meal-card .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
-  .meal-card .emoji{font-size:32px;}
-  .goal-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:4px 9px;border-radius:99px;}
-  .goal-tag.muscle{background:var(--green-soft);color:var(--green-deep);}
-  .goal-tag.fatLoss{background:var(--pepper-soft);color:var(--pepper);}
-  .goal-tag.maintenance{background:#EFEAE0;color:#8A6A2F;}
-  .meal-card h3{font-size:16px;font-weight:700;margin-bottom:6px;}
-  .meal-card p{font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:14px;}
-  .meal-macros{display:flex;gap:14px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;}
-  .meal-macros strong{color:var(--ink);font-weight:700;}
-
-  /* ══ FOOTER ══ */
-  footer{background:var(--green-deep);color:rgba(255,255,255,0.7);padding:40px 6%;text-align:center;font-size:13.5px;}
-  footer strong{color:#fff;}
-
-  /* ══ TOAST ══ */
-  .toast{
-    position:fixed;bottom:24px;right:24px;background:var(--green-deep);color:#fff;
-    padding:13px 22px;border-radius:var(--radius-md);font-size:14px;font-weight:600;
-    opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;
-    max-width:320px;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,0.2);
-  }
-  .toast.visible{opacity:1;transform:translateY(0);}
-  .toast.error{background:var(--pepper);}
-
-  /* ══ DAY MODAL ══ */
-  .modal-bg{
-    position:fixed;inset:0;z-index:300;background:rgba(22,56,41,0.45);
-    display:flex;align-items:center;justify-content:center;padding:20px;
-    opacity:0;pointer-events:none;transition:opacity .2s;
-  }
-  .modal-bg.open{opacity:1;pointer-events:all;}
-  .modal{
-    background:var(--surface);border-radius:var(--radius-lg);padding:30px;max-width:420px;width:100%;
-    transform:scale(0.96);transition:transform .2s;max-height:80vh;overflow-y:auto;
-  }
-  .modal-bg.open .modal{transform:scale(1);}
-  .modal-close{float:right;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);}
-  .modal h3{font-size:21px;font-weight:600;color:var(--green-deep);margin-bottom:16px;}
-  .modal-meal-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;}
-  .modal-meal-row:last-of-type{border-bottom:none;}
-</style>
+<link rel="stylesheet" href="assets/style.css" />
 </head>
 <body>
 
-<nav>
-  <a class="brand" href="#"><span class="brand-mark">🍲</span>Naija Fuel</a>
-  <a class="nav-cta" href="#planner">Build your plan</a>
+<nav class="site-nav">
+  <a class="brand" href="index.html">
+    <div class="brand-mark">NF</div>
+    <div class="brand-word">Naija Fuel<span>Training &amp; Nutrition</span></div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" href="index.html">Home</a>
+    <a class="nav-link" href="planner.html">Meal Planner</a>
+    <a class="nav-link" href="meals.html">Meal Library</a>
+    <a class="nav-link" href="workouts.html">Workouts</a>
+    <a class="nav-link" href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-primary" href="planner.html">Start planning</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"></button>
+  </div>
 </nav>
+<div class="mobile-menu-scrim" id="mobileScrim"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-head">
+    <div class="brand-word">Menu</div>
+    <button class="modal-close" id="navClose" aria-label="Close menu"></button>
+  </div>
+  <a class="nav-link active" href="index.html">Home</a>
+  <a class="nav-link" href="planner.html">Meal Planner</a>
+  <a class="nav-link" href="meals.html">Meal Library</a>
+  <a class="nav-link" href="workouts.html">Workouts</a>
+  <a class="nav-link" href="about.html">About</a>
+</div>
 
 <!-- ══ HERO ══ -->
 <header class="hero">
-  <div class="eyebrow">🇳🇬 Built for Nigerian training kitchens</div>
+  <div class="eyebrow"><span id="eyebrowIcon"></span>Built for Nigerian training kitchens</div>
   <h1>Train hard.<br>Eat <em>Nigerian.</em></h1>
-  <p>Plan a full week of meals around your goal — muscle gain, fat loss, or maintenance — using real Nigerian dishes with researched calorie estimates.</p>
+  <p>A full training and nutrition platform built around real Nigerian dishes and realistic weekly workouts — plan your meals, follow a training split, and stay consistent toward muscle gain, fat loss, or maintenance.</p>
   <div class="hero-row">
-    <a href="#planner" class="btn-primary">Start planning →</a>
-    <a href="#meals" class="btn-ghost">Browse meals</a>
+    <a href="planner.html" class="btn-primary">Build your meal plan <span id="heroArrow1"></span></a>
+    <a href="workouts.html" class="btn-ghost">Browse workouts</a>
   </div>
   <div class="hero-stats">
     <div><span class="stat-num" id="heroMealCount">18</span><div class="stat-label">Nigerian meals</div></div>
+    <div><span class="stat-num" id="heroWorkoutCount">18</span><div class="stat-label">Workout moves</div></div>
     <div><span class="stat-num">3</span><div class="stat-label">Goal tracks</div></div>
     <div><span class="stat-num">7</span><div class="stat-label">Day planner</div></div>
   </div>
 </header>
 
-<!-- ══ WEEK STRIP ══ -->
-<section class="week-section">
-  <div class="week-head">
+<!-- ══ FEATURES ══ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-label">The platform</div>
+        <h2 class="section-heading">Everything in one place</h2>
+        <p class="section-sub">Three connected tools, each built for a different part of your week.</p>
+      </div>
+    </div>
+    <div class="feature-grid">
+      <a class="feature-card" href="planner.html">
+        <div class="feature-icon" id="iconPlanner"></div>
+        <h3>Meal Planner</h3>
+        <p>Assign Nigerian meals to every day of the week, filtered by your goal, and watch your calories update live.</p>
+        <span class="feature-link">Open planner <span class="arrow-sm"></span></span>
+      </a>
+      <a class="feature-card" href="meals.html">
+        <div class="feature-icon" id="iconMeals"></div>
+        <h3>Meal Library</h3>
+        <p>Browse a growing set of researched Nigerian dishes with calories and protein, sorted by muscle gain, fat loss, or maintenance.</p>
+        <span class="feature-link">Browse meals <span class="arrow-sm"></span></span>
+      </a>
+      <a class="feature-card" href="workouts.html">
+        <div class="feature-icon" id="iconWorkouts"></div>
+        <h3>Workout Library</h3>
+        <p>Follow a weekly training split and log exercises against the same three goals you use for your meals.</p>
+        <span class="feature-link">Browse workouts <span class="arrow-sm"></span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="section section-tight" style="background:var(--surface-alt);">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-label">How it works</div>
+        <h2 class="section-heading">Three steps to a working week</h2>
+      </div>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Choose your goal</h3>
+        <p>Pick muscle gain, fat loss, or maintenance. It filters both the meal and workout libraries to match.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Build your week</h3>
+        <p>Add meals to each day in the planner and follow the suggested training split for your workouts.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Track and adjust</h3>
+        <p>Calories, averages, and completed exercises update automatically and stay saved in your browser.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GOALS ══ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Goal tracks</div>
+        <h2 class="section-heading">Built around three real goals</h2>
+      </div>
+    </div>
+    <div class="goal-cards">
+      <div class="goal-card">
+        <span class="goal-tag muscle">Muscle gain</span>
+        <h3>Train heavier, eat more</h3>
+        <p>Higher-protein, higher-calorie meals like ofada rice with chicken, paired with compound lifts like squats and deadlifts.</p>
+      </div>
+      <div class="goal-card">
+        <span class="goal-tag fatLoss">Fat loss</span>
+        <h3>Stay full, stay lean</h3>
+        <p>Fibre-rich, lower-calorie meals like beans porridge and pepper soup, paired with metabolic circuits and intervals.</p>
+      </div>
+      <div class="goal-card">
+        <span class="goal-tag maintenance">Maintenance</span>
+        <h3>Consistency over intensity</h3>
+        <p>A balanced plate and a varied, moderate training split designed to be sustainable for the long run.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ QUOTES BAND ══ -->
+<section class="band section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-label">From the training floor</div>
+        <h2 class="section-heading">What a working week looks like</h2>
+      </div>
+    </div>
+    <div class="quote-grid">
+      <div class="quote-card">
+        <p>Building my week around ofada rice and grilled chicken instead of guessing made my training days feel completely different.</p>
+        <div class="quote-name"><div class="monogram sm mono-muscle">T</div><div><strong>Tunde</strong><br><span>Trains four days a week</span></div></div>
+      </div>
+      <div class="quote-card">
+        <p>The fat-loss meals kept me full enough that I actually stuck to the plan past the first week, which never used to happen.</p>
+        <div class="quote-name"><div class="monogram sm mono-fatLoss">A</div><div><strong>Amaka</strong><br><span>Twelve-week fat loss goal</span></div></div>
+      </div>
+      <div class="quote-card">
+        <p>Having the meal plan and the training split in one place made the whole week easier to think about.</p>
+        <div class="quote-name"><div class="monogram sm mono-maintenance">K</div><div><strong>Kelechi</strong><br><span>Maintenance and consistency</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="section">
+  <div class="cta-band">
+    <h2>Ready to build your week?</h2>
+    <p>Set your goal, fill your days, and let the numbers take care of themselves.</p>
+    <div class="hero-row">
+      <a href="planner.html" class="btn-primary">Start planning</a>
+      <a href="meals.html" class="btn-ghost">See meal library</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
     <div>
-      <div class="section-label">This week</div>
-      <h2 class="section-heading">Your plan at a glance</h2>
+      <div class="footer-brand"><div class="brand-mark">NF</div><div class="footer-brand-word">Naija Fuel</div></div>
+      <p>Training and nutrition built around real Nigerian meals and realistic weekly routines, for muscle gain, fat loss, or maintenance.</p>
     </div>
-    <div class="week-actions">
-      <button class="btn-small" onclick="exportPlan()">Export plan</button>
-      <button class="btn-small" onclick="clearPlan()">Clear week</button>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="index.html">Home</a>
+      <a href="planner.html">Meal Planner</a>
+      <a href="meals.html">Meal Library</a>
+      <a href="workouts.html">Workouts</a>
+    </div>
+    <div class="footer-col">
+      <h4>Goals</h4>
+      <a href="meals.html">Muscle gain</a>
+      <a href="meals.html">Fat loss</a>
+      <a href="meals.html">Maintenance</a>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="about.html">Our approach</a>
+      <a href="about.html">Contact</a>
     </div>
   </div>
-  <div class="week-strip" id="weekStrip"></div>
-</section>
-
-<!-- ══ PLANNER ══ -->
-<section id="planner">
-  <div class="planner-grid">
-
-    <div class="panel">
-      <h2>Add a meal</h2>
-      <p class="panel-sub">Pick a goal, day, and meal time — then choose a Nigerian dish to fill it.</p>
-
-      <form id="mealForm">
-        <div class="field-grid">
-          <div class="field-row">
-            <label for="goal">Goal</label>
-            <select id="goal" name="goal">
-              <option value="muscle">Muscle gain</option>
-              <option value="fatLoss">Fat loss</option>
-              <option value="maintenance">Maintenance</option>
-            </select>
-          </div>
-          <div class="field-row">
-            <label for="day">Day</label>
-            <select id="day" name="day"></select>
-          </div>
-        </div>
-        <div class="field-grid">
-          <div class="field-row">
-            <label for="mealType">Meal time</label>
-            <select id="mealType" name="mealType">
-              <option>Breakfast</option>
-              <option>Lunch</option>
-              <option>Dinner</option>
-              <option>Snack</option>
-            </select>
-          </div>
-          <div class="field-row">
-            <label for="mealChoice">Nigerian meal</label>
-            <select id="mealChoice" name="mealChoice"></select>
-          </div>
-        </div>
-
-        <div class="meal-preview" id="mealPreview"></div>
-
-        <button type="submit" class="submit-btn">Add to plan</button>
-      </form>
-
-      <div class="tip-box" id="goalTip">
-        <span>💡</span>
-        <span><strong>Tip:</strong> match meals to your goal — protein-dense options drive muscle gain, fibre-rich ones support fat loss.</span>
-      </div>
-
-      <div class="suggestion-panel">
-        <h3>Recommended for your goal</h3>
-        <div id="suggestionCard"></div>
-        <button type="button" id="suggestMeal" class="secondary-button">Show another suggestion</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="summary-top">
-        <div>
-          <h2>Your current plan</h2>
-          <p class="panel-sub" style="margin-bottom:0;">Saved automatically in this browser.</p>
-        </div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-chip"><div class="label">Meals</div><div class="value" id="totalMeals">0</div></div>
-        <div class="stat-chip accent"><div class="label">Calories / week</div><div class="value" id="totalCalories">0</div></div>
-        <div class="stat-chip"><div class="label">Avg / day</div><div class="value" id="avgCalories">0</div></div>
-      </div>
-
-      <table class="plan-table">
-        <thead>
-          <tr><th>Day</th><th>Meal</th><th>Dish</th><th>Cal</th><th></th></tr>
-        </thead>
-        <tbody id="planBody">
-          <tr class="empty-row"><td colspan="5">No meals added yet — build your first day on the left.</td></tr>
-        </tbody>
-      </table>
-    </div>
-
+  <div class="footer-bottom">
+    <span>&copy; <span id="footerYear"></span> Naija Fuel. Calorie and set values are researched estimates and vary by recipe, portion and individual.</span>
   </div>
-</section>
-
-<!-- ══ MEALS LIBRARY ══ -->
-<section id="meals">
-  <div class="meals-head">
-    <div class="section-label">Meal library</div>
-    <h2 class="section-heading">Healthy Nigerian meal options</h2>
-  </div>
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterMeals('all',this)">All meals</button>
-    <button class="filter-btn" onclick="filterMeals('muscle',this)">Muscle gain</button>
-    <button class="filter-btn" onclick="filterMeals('fatLoss',this)">Fat loss</button>
-    <button class="filter-btn" onclick="filterMeals('maintenance',this)">Maintenance</button>
-  </div>
-  <div class="meal-grid" id="mealGrid"></div>
-</section>
-
-<footer>
-  <p>🍲 <strong>Naija Fuel</strong> — Nigerian gym meal planning for real training goals.</p>
-  <p style="margin-top:6px;font-size:12px;">Calorie values are researched estimates and vary by recipe and portion size.</p>
 </footer>
 
 <div class="toast" id="toast" aria-live="polite"></div>
 
-<div class="modal-bg" id="dayModalBg" onclick="closeDayModalOnBg(event)">
-  <div class="modal" id="dayModal">
-    <button class="modal-close" onclick="closeDayModal()" aria-label="Close">✕</button>
-    <h3 id="dayModalTitle"></h3>
-    <div id="dayModalBody"></div>
-  </div>
-</div>
-
+<script src="assets/data.js"></script>
+<script src="assets/nav.js"></script>
 <script>
-/* ══════════ DATA ══════════ */
-const MEALS = [
-  { id:'moimoi-egg', name:'Moi Moi + Boiled Egg', emoji:'🥚', desc:'High-protein steamed bean pudding with a boiled egg — great for recovery and sustained energy.', cal:355, protein:21, goals:['muscle','maintenance'] },
-  { id:'ofada-chicken', name:'Ofada Rice + Stewed Chicken', emoji:'🍛', desc:'Balanced carbs and lean protein from local ofada rice and pepper-stewed chicken.', cal:610, protein:38, goals:['muscle'] },
-  { id:'beans-porridge', name:'Beans Porridge with Vegetables', emoji:'🫘', desc:'Fibre-rich beans and greens that keep you full while supporting fat loss and gut health.', cal:420, protein:19, goals:['fatLoss','maintenance'] },
-  { id:'fish-suya', name:'Grilled Fish Suya', emoji:'🐟', desc:'Lean grilled fish coated in suya spice — high protein, low fat, great post-workout.', cal:340, protein:34, goals:['fatLoss','muscle'] },
-  { id:'ogi-akamu', name:'Ogi (Akamu) with Nuts', emoji:'🥣', desc:'Light, nutrient-dense fermented corn pap topped with groundnuts for steady energy.', cal:230, protein:7, goals:['fatLoss','maintenance'] },
-  { id:'okra-eba', name:'Okra Soup + Eba', emoji:'🥗', desc:'Vitamin-packed okra soup with a filling cassava swallow and lean protein base.', cal:480, protein:24, goals:['maintenance','muscle'] },
-  { id:'jollof-chicken', name:'Jollof Rice + Grilled Chicken', emoji:'🍚', desc:'Classic smoky jollof paired with grilled (not fried) chicken breast for clean protein.', cal:560, protein:36, goals:['muscle'] },
-  { id:'egusi-fufu', name:'Egusi Soup + Fufu', emoji:'🍲', desc:'Melon-seed soup rich in healthy fats and protein, served with a fufu swallow.', cal:650, protein:28, goals:['muscle','maintenance'] },
-  { id:'plantain-egg', name:'Boiled Plantain + Scrambled Eggs', emoji:'🍌', desc:'Slow-release carbs from unripe plantain with protein-rich scrambled eggs.', cal:390, protein:18, goals:['fatLoss','maintenance'] },
-  { id:'pepper-soup', name:'Goat Meat Pepper Soup', emoji:'🌶️', desc:'Spicy, broth-based soup that is naturally low in carbs and high in protein.', cal:310, protein:30, goals:['fatLoss'] },
-  { id:'akara-bread', name:'Akara + Wholemeal Bread', emoji:'🫓', desc:'Bean fritters with wholemeal bread — a protein-forward breakfast classic.', cal:400, protein:17, goals:['muscle','maintenance'] },
-  { id:'tuwo-miyan', name:'Tuwo Shinkafa + Miyan Kuka', emoji:'🍜', desc:'Rice swallow with baobab-leaf soup, light on fat and rich in micronutrients.', cal:430, protein:16, goals:['fatLoss','maintenance'] },
-  { id:'unripe-plantain-fish', name:'Unripe Plantain Porridge + Fish', emoji:'🐠', desc:'Fibrous unripe plantain porridge with fish — filling with a moderate calorie load.', cal:450, protein:26, goals:['fatLoss','muscle'] },
-  { id:'yam-egg-sauce', name:'Boiled Yam + Egg Sauce', emoji:'🍳', desc:'A simple, high-carb post-workout combo with protein from sauced eggs.', cal:520, protein:20, goals:['muscle'] },
-  { id:'salad-chicken', name:'Nigerian Salad + Grilled Chicken', emoji:'🥬', desc:'Cabbage, carrots, cucumber and sweet corn with lean grilled chicken on top.', cal:300, protein:29, goals:['fatLoss'] },
-  { id:'oats-groundnut', name:'Oats with Roasted Groundnuts', emoji:'🥄', desc:'A fibre and protein-rich breakfast or snack option, easy to prep ahead.', cal:280, protein:11, goals:['fatLoss','maintenance'] },
-  { id:'efo-riro-rice', name:'Efo Riro + Brown Rice', emoji:'🥘', desc:'Spinach-based vegetable soup loaded with micronutrients, served with brown rice.', cal:470, protein:22, goals:['maintenance','muscle'] },
-  { id:'kilishi-snack', name:'Kilishi (Spiced Dried Beef)', emoji:'🥩', desc:'High-protein, low-carb dried beef snack — convenient between-meal fuel.', cal:250, protein:33, goals:['muscle','fatLoss'] },
-];
-
-const GOAL_LABELS = { muscle:'Muscle gain', fatLoss:'Fat loss', maintenance:'Maintenance' };
-const GOAL_TIPS = {
-  muscle:'Aim for higher-protein, higher-calorie meals like ofada rice with chicken or egusi soup to fuel growth.',
-  fatLoss:'Lean on fibre-rich, lower-calorie meals like beans porridge or pepper soup to stay full on fewer calories.',
-  maintenance:'Balance your plate across protein, carbs and vegetables — variety keeps your week sustainable.'
-};
-const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-const TODAY_NAME = DAYS[(new Date().getDay()+6)%7]; // Mon=0
-
-/* ══════════ STATE (localStorage) ══════════ */
-const STORAGE_KEY = 'naijaFuelPlan';
-let plan = [];
-try {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  plan = saved ? JSON.parse(saved) : [];
-} catch(e) { plan = []; }
-
-function savePlan() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(plan)); } catch(e) {}
-}
-
-/* ══════════ INIT SELECTS ══════════ */
-const daySelect = document.getElementById('day');
-DAYS.forEach(d => { const o=document.createElement('option'); o.textContent=d; daySelect.appendChild(o); });
-daySelect.value = TODAY_NAME;
-
-function mealsForGoal(goal) { return MEALS.filter(m => m.goals.includes(goal)); }
-
-function populateMealChoice() {
-  const goal = document.getElementById('goal').value;
-  const sel = document.getElementById('mealChoice');
-  sel.innerHTML = '';
-  mealsForGoal(goal).forEach(m => {
-    const o = document.createElement('option');
-    o.value = m.id; o.textContent = m.name;
-    sel.appendChild(o);
-  });
-  updateMealPreview();
-}
-
-function updateMealPreview() {
-  const id = document.getElementById('mealChoice').value;
-  const m = MEALS.find(x => x.id === id);
-  const box = document.getElementById('mealPreview');
-  if (!m) { box.innerHTML = ''; return; }
-  box.innerHTML = `
-    <div class="meal-preview-emoji">${m.emoji}</div>
-    <div>
-      <h4>${m.name}</h4>
-      <p>${m.desc}</p>
-      <div class="cals">${m.cal} kcal · ${m.protein}g protein</div>
-    </div>`;
-}
-
-/* ══════════ FORM SUBMIT ══════════ */
-document.getElementById('goal').addEventListener('change', () => { populateMealChoice(); updateGoalTip(); updateSuggestion(); });
-document.getElementById('mealChoice').addEventListener('change', updateMealPreview);
-
-document.getElementById('mealForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const goal = document.getElementById('goal').value;
-  const day = document.getElementById('day').value;
-  const mealType = document.getElementById('mealType').value;
-  const mealId = document.getElementById('mealChoice').value;
-  const meal = MEALS.find(m => m.id === mealId);
-  if (!meal) return;
-
-  plan.push({ id: Date.now()+Math.random(), day, mealType, mealId, goal });
-  savePlan();
-  renderAll();
-  showToast(`Added ${meal.name} to ${day}.`);
-});
-
-/* ══════════ GOAL TIP + SUGGESTION ══════════ */
-function updateGoalTip() {
-  const goal = document.getElementById('goal').value;
-  document.getElementById('goalTip').innerHTML = `<span>💡</span><span><strong>Tip:</strong> ${GOAL_TIPS[goal]}</span>`;
-}
-
-let lastSuggestionId = null;
-function updateSuggestion() {
-  const goal = document.getElementById('goal').value;
-  const options = mealsForGoal(goal);
-  let pick = options[Math.floor(Math.random()*options.length)];
-  if (options.length > 1 && pick.id === lastSuggestionId) {
-    pick = options[(options.indexOf(pick)+1) % options.length];
-  }
-  lastSuggestionId = pick.id;
-  document.getElementById('suggestionCard').innerHTML = `
-    <div class="suggestion-card">
-      <span class="emoji">${pick.emoji}</span>
-      <div>
-        <h4>${pick.name}</h4>
-        <p>${pick.desc}</p>
-        <p style="margin-top:4px;font-weight:700;color:var(--pepper);font-size:12px;">${pick.cal} kcal · ${pick.protein}g protein</p>
-      </div>
-    </div>`;
-}
-document.getElementById('suggestMeal').addEventListener('click', updateSuggestion);
-
-/* ══════════ RENDER PLAN TABLE ══════════ */
-function renderPlanTable() {
-  const tbody = document.getElementById('planBody');
-  if (plan.length === 0) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="5">No meals added yet — build your first day on the left.</td></tr>`;
-    return;
-  }
-  const order = { Breakfast:0, Lunch:1, Dinner:2, Snack:3 };
-  const sorted = [...plan].sort((a,b) => DAYS.indexOf(a.day)-DAYS.indexOf(b.day) || order[a.mealType]-order[b.mealType]);
-  tbody.innerHTML = sorted.map(entry => {
-    const meal = MEALS.find(m => m.id === entry.mealId);
-    if (!meal) return '';
-    return `<tr>
-      <td class="day-badge">${entry.day}</td>
-      <td><span class="meal-time">${entry.mealType}</span></td>
-      <td>${meal.emoji} ${meal.name}</td>
-      <td class="cal-val">${meal.cal}</td>
-      <td><button class="remove-btn" onclick="removeEntry('${entry.id}')" aria-label="Remove">✕</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function removeEntry(id) {
-  plan = plan.filter(e => String(e.id) !== String(id));
-  savePlan();
-  renderAll();
-  showToast('Meal removed from plan.');
-}
-
-/* ══════════ STATS ══════════ */
-function renderStats() {
-  document.getElementById('totalMeals').textContent = plan.length;
-  const totalCal = plan.reduce((sum,e) => { const m = MEALS.find(x=>x.id===e.mealId); return sum + (m?m.cal:0); }, 0);
-  document.getElementById('totalCalories').textContent = totalCal.toLocaleString();
-  const daysUsed = new Set(plan.map(e=>e.day)).size || 1;
-  document.getElementById('avgCalories').textContent = Math.round(totalCal/daysUsed).toLocaleString();
-}
-
-/* ══════════ WEEK STRIP ══════════ */
-function calRing(pct, color) {
-  const r = 22, c = 2*Math.PI*r;
-  const offset = c - (Math.min(pct,1)*c);
-  return `<svg width="56" height="56" viewBox="0 0 56 56">
-    <circle cx="28" cy="28" r="${r}" fill="none" stroke="var(--line)" stroke-width="5"/>
-    <circle cx="28" cy="28" r="${r}" fill="none" stroke="${color}" stroke-width="5"
-      stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round"
-      transform="rotate(-90 28 28)"/>
-  </svg>`;
-}
-
-function renderWeekStrip() {
-  const TARGET = 2200; // reference daily target for ring fill
-  const strip = document.getElementById('weekStrip');
-  strip.innerHTML = DAYS.map(day => {
-    const entries = plan.filter(e => e.day === day);
-    const cal = entries.reduce((s,e) => { const m=MEALS.find(x=>x.id===e.mealId); return s+(m?m.cal:0); }, 0);
-    const isToday = day === TODAY_NAME;
-    const pills = entries.length
-      ? entries.map(e => { const m=MEALS.find(x=>x.id===e.mealId); return `<span class="day-pill">${m?m.emoji:''} ${e.mealType}</span>`; }).join('')
-      : `<span class="day-pill empty">Empty</span>`;
-    return `<div class="day-card ${isToday?'today':''}" onclick="openDayModal('${day}')">
-      <div class="day-name">${day.slice(0,3)}${isToday?' · today':''}</div>
-      <div class="day-ring-wrap">${calRing(cal/TARGET, isToday?'#E8542E':'#1F4E3D')}</div>
-      <div class="day-cal"><strong>${cal}</strong>kcal</div>
-      <div class="day-pills">${pills}</div>
-    </div>`;
-  }).join('');
-}
-
-/* ══════════ DAY MODAL ══════════ */
-function openDayModal(day) {
-  const entries = plan.filter(e => e.day === day);
-  document.getElementById('dayModalTitle').textContent = day;
-  const body = document.getElementById('dayModalBody');
-  if (entries.length === 0) {
-    body.innerHTML = `<p style="color:var(--muted);font-size:14px;">No meals planned for ${day} yet.</p>`;
-  } else {
-    const order = { Breakfast:0, Lunch:1, Dinner:2, Snack:3 };
-    const sorted = [...entries].sort((a,b)=>order[a.mealType]-order[b.mealType]);
-    body.innerHTML = sorted.map(e => {
-      const m = MEALS.find(x=>x.id===e.mealId);
-      return `<div class="modal-meal-row">
-        <span>${m.emoji} <strong>${e.mealType}</strong> — ${m.name}</span>
-        <span style="color:var(--pepper);font-weight:700;">${m.cal} kcal</span>
-      </div>`;
-    }).join('');
-    const total = sorted.reduce((s,e)=>{const m=MEALS.find(x=>x.id===e.mealId);return s+(m?m.cal:0);},0);
-    body.innerHTML += `<div class="modal-meal-row" style="border-top:2px solid var(--line);margin-top:6px;padding-top:14px;"><span style="font-weight:700;">Total</span><span style="font-weight:700;">${total} kcal</span></div>`;
-  }
-  document.getElementById('dayModalBg').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeDayModal() { document.getElementById('dayModalBg').classList.remove('open'); document.body.style.overflow=''; }
-function closeDayModalOnBg(e) { if (e.target === document.getElementById('dayModalBg')) closeDayModal(); }
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeDayModal(); });
-
-/* ══════════ MEAL LIBRARY GRID ══════════ */
-function renderMealGrid() {
-  const grid = document.getElementById('mealGrid');
-  grid.innerHTML = MEALS.map(m => `
-    <div class="meal-card" data-goals="${m.goals.join(',')}">
-      <div class="top">
-        <span class="emoji">${m.emoji}</span>
-        <span class="goal-tag ${m.goals[0]}">${GOAL_LABELS[m.goals[0]]}</span>
-      </div>
-      <h3>${m.name}</h3>
-      <p>${m.desc}</p>
-      <div class="meal-macros">
-        <span><strong>${m.cal}</strong> kcal</span>
-        <span><strong>${m.protein}g</strong> protein</span>
-      </div>
-    </div>`).join('');
-}
-
-function filterMeals(goal, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.meal-card').forEach(card => {
-    const goals = card.dataset.goals.split(',');
-    card.style.display = (goal==='all' || goals.includes(goal)) ? '' : 'none';
-  });
-}
-
-/* ══════════ PLAN ACTIONS ══════════ */
-function clearPlan() {
-  if (plan.length === 0) { showToast('Your plan is already empty.'); return; }
-  if (!confirm('Clear your entire weekly plan? This cannot be undone.')) return;
-  plan = [];
-  savePlan();
-  renderAll();
-  showToast('Weekly plan cleared.');
-}
-
-function exportPlan() {
-  if (plan.length === 0) { showToast('Add some meals before exporting.', true); return; }
-  const order = { Breakfast:0, Lunch:1, Dinner:2, Snack:3 };
-  const sorted = [...plan].sort((a,b) => DAYS.indexOf(a.day)-DAYS.indexOf(b.day) || order[a.mealType]-order[b.mealType]);
-  let text = 'NAIJA FUEL — WEEKLY MEAL PLAN\n\n';
-  DAYS.forEach(day => {
-    const entries = sorted.filter(e=>e.day===day);
-    if (entries.length===0) return;
-    text += `${day}\n`;
-    entries.forEach(e => {
-      const m = MEALS.find(x=>x.id===e.mealId);
-      text += `  ${e.mealType}: ${m.name} (${m.cal} kcal)\n`;
-    });
-    text += '\n';
-  });
-  const blob = new Blob([text], { type:'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'naija-fuel-meal-plan.txt';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('Plan exported as a text file.');
-}
-
-/* ══════════ TOAST ══════════ */
-function showToast(msg, isError) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.toggle('error', !!isError);
-  t.classList.add('visible');
-  setTimeout(()=>t.classList.remove('visible'), 3200);
-}
-
-/* ══════════ RENDER ALL ══════════ */
-function renderAll() {
-  renderWeekStrip();
-  renderPlanTable();
-  renderStats();
-}
-
-/* ══════════ INIT ══════════ */
-populateMealChoice();
-updateGoalTip();
-updateSuggestion();
-renderMealGrid();
-renderAll();
-document.getElementById('heroMealCount').textContent = MEALS.length;
+  document.getElementById('eyebrowIcon').innerHTML = ICON.pin;
+  document.getElementById('heroArrow1').innerHTML = ICON.arrow;
+  document.getElementById('iconPlanner').innerHTML = ICON.calendar;
+  document.getElementById('iconMeals').innerHTML = ICON.plate;
+  document.getElementById('iconWorkouts').innerHTML = ICON.dumbbell;
+  document.querySelectorAll('.nav-toggle, #navClose').forEach(b=>{});
+  document.getElementById('navToggle').innerHTML = ICON.menu;
+  document.getElementById('navClose').innerHTML = ICON.close;
+  document.querySelectorAll('.arrow-sm').forEach(el => el.innerHTML = ICON.arrow);
+  document.getElementById('heroMealCount').textContent = MEALS.length;
+  document.getElementById('heroWorkoutCount').textContent = WORKOUTS.length;
 </script>
 </body>
 </html>

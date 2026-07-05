@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Workouts — Naija Fuel</title>
+<meta name="description" content="Follow a weekly training split and log exercises by goal: muscle gain, fat loss, or maintenance." />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">
+    <div class="brand-mark">NF</div>
+    <div class="brand-word">Naija Fuel<span>Training &amp; Nutrition</span></div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="planner.html">Meal Planner</a>
+    <a class="nav-link" href="meals.html">Meal Library</a>
+    <a class="nav-link active" href="workouts.html">Workouts</a>
+    <a class="nav-link" href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-primary" href="planner.html">Start planning</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"></button>
+  </div>
+</nav>
+<div class="mobile-menu-scrim" id="mobileScrim"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-head">
+    <div class="brand-word">Menu</div>
+    <button class="modal-close" id="navClose" aria-label="Close menu"></button>
+  </div>
+  <a class="nav-link" href="index.html">Home</a>
+  <a class="nav-link" href="planner.html">Meal Planner</a>
+  <a class="nav-link" href="meals.html">Meal Library</a>
+  <a class="nav-link active" href="workouts.html">Workouts</a>
+  <a class="nav-link" href="about.html">About</a>
+</div>
+
+<header class="page-hero">
+  <div class="section-label"><span id="workoutCount"></span> exercises</div>
+  <h1>Train on a schedule you can repeat</h1>
+  <p>Follow the suggested weekly split, then filter the exercise library by the same goal you use for your meals.</p>
+</header>
+
+<!-- ══ WEEK SPLIT ══ -->
+<section class="section-tight">
+  <div class="wrap">
+    <div class="week-head">
+      <div>
+        <div class="section-label">This week</div>
+        <h2 class="section-heading">Suggested training split</h2>
+      </div>
+    </div>
+    <div class="split-strip" id="splitStrip"></div>
+  </div>
+</section>
+
+<!-- ══ PROGRESS ══ -->
+<section class="section-tight">
+  <div class="wrap">
+    <div class="panel" style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+      <div>
+        <h2 style="margin-bottom:4px;">Today's session</h2>
+        <p class="panel-sub" style="margin-bottom:0;"><span id="doneCount">0</span> of <span id="totalCount">0</span> exercises marked done — saved in this browser.</p>
+      </div>
+      <button class="btn-small" onclick="resetToday()">Reset today</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXERCISE LIBRARY ══ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="section-label">Exercise library</div>
+        <h2 class="section-heading">Pick your goal, pick your moves</h2>
+      </div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterWorkouts('all',this)">All exercises</button>
+      <button class="filter-btn" onclick="filterWorkouts('muscle',this)">Muscle gain</button>
+      <button class="filter-btn" onclick="filterWorkouts('fatLoss',this)">Fat loss</button>
+      <button class="filter-btn" onclick="filterWorkouts('maintenance',this)">Maintenance</button>
+    </div>
+    <div class="item-grid" id="exerciseGrid"></div>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="cta-band">
+    <h2>Pair training with the right fuel</h2>
+    <p>Match today's session with a meal plan built for the same goal.</p>
+    <div class="hero-row">
+      <a href="planner.html" class="btn-primary">Build your meal plan</a>
+      <a href="meals.html" class="btn-ghost">Browse meals</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand"><div class="brand-mark">NF</div><div class="footer-brand-word">Naija Fuel</div></div>
+      <p>Training and nutrition built around real Nigerian meals and realistic weekly routines, for muscle gain, fat loss, or maintenance.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="index.html">Home</a>
+      <a href="planner.html">Meal Planner</a>
+      <a href="meals.html">Meal Library</a>
+      <a href="workouts.html">Workouts</a>
+    </div>
+    <div class="footer-col">
+      <h4>Goals</h4>
+      <a href="workouts.html">Muscle gain</a>
+      <a href="workouts.html">Fat loss</a>
+      <a href="workouts.html">Maintenance</a>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="about.html">Our approach</a>
+      <a href="about.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; <span id="footerYear"></span> Naija Fuel. Set and rep values are general guidance — adjust to your own level and check with a professional if you are new to training.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/nav.js"></script>
+<script>
+  document.getElementById('navToggle').innerHTML = ICON.menu;
+  document.getElementById('navClose').innerHTML = ICON.close;
+</script>
+<script src="assets/workouts.js"></script>
+</body>
+</html>

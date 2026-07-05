@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meal Library — Naija Fuel</title>
+<meta name="description" content="Browse researched Nigerian meals by goal: muscle gain, fat loss, or maintenance." />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">
+    <div class="brand-mark">NF</div>
+    <div class="brand-word">Naija Fuel<span>Training &amp; Nutrition</span></div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="planner.html">Meal Planner</a>
+    <a class="nav-link active" href="meals.html">Meal Library</a>
+    <a class="nav-link" href="workouts.html">Workouts</a>
+    <a class="nav-link" href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-primary" href="planner.html">Start planning</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"></button>
+  </div>
+</nav>
+<div class="mobile-menu-scrim" id="mobileScrim"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-head">
+    <div class="brand-word">Menu</div>
+    <button class="modal-close" id="navClose" aria-label="Close menu"></button>
+  </div>
+  <a class="nav-link" href="index.html">Home</a>
+  <a class="nav-link" href="planner.html">Meal Planner</a>
+  <a class="nav-link active" href="meals.html">Meal Library</a>
+  <a class="nav-link" href="workouts.html">Workouts</a>
+  <a class="nav-link" href="about.html">About</a>
+</div>
+
+<header class="page-hero">
+  <div class="section-label"><span id="mealCount"></span> meals</div>
+  <h1>Healthy Nigerian meal options</h1>
+  <p>Every dish here has a researched calorie and protein estimate, tagged to the goal it fits best. Filter by goal or browse the full set.</p>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterMeals('all',this)">All meals</button>
+      <button class="filter-btn" onclick="filterMeals('muscle',this)">Muscle gain</button>
+      <button class="filter-btn" onclick="filterMeals('fatLoss',this)">Fat loss</button>
+      <button class="filter-btn" onclick="filterMeals('maintenance',this)">Maintenance</button>
+    </div>
+    <div class="item-grid" id="mealGrid"></div>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="cta-band">
+    <h2>Found something you like?</h2>
+    <p>Drop it straight into your weekly plan and see how it fits your calorie target.</p>
+    <div class="hero-row">
+      <a href="planner.html" class="btn-primary">Add to your plan</a>
+      <a href="workouts.html" class="btn-ghost">Pair with a workout</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand"><div class="brand-mark">NF</div><div class="footer-brand-word">Naija Fuel</div></div>
+      <p>Training and nutrition built around real Nigerian meals and realistic weekly routines, for muscle gain, fat loss, or maintenance.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="index.html">Home</a>
+      <a href="planner.html">Meal Planner</a>
+      <a href="meals.html">Meal Library</a>
+      <a href="workouts.html">Workouts</a>
+    </div>
+    <div class="footer-col">
+      <h4>Goals</h4>
+      <a href="meals.html">Muscle gain</a>
+      <a href="meals.html">Fat loss</a>
+      <a href="meals.html">Maintenance</a>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="about.html">Our approach</a>
+      <a href="about.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; <span id="footerYear"></span> Naija Fuel. Calorie values are researched estimates and vary by recipe, portion and individual.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<script src="assets/data.js"></script>
+<script src="assets/nav.js"></script>
+<script>
+  document.getElementById('navToggle').innerHTML = ICON.menu;
+  document.getElementById('navClose').innerHTML = ICON.close;
+</script>
+<script src="assets/meals.js"></script>
+</body>
+</html>

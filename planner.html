@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meal Planner — Naija Fuel</title>
+<meta name="description" content="Build your weekly Nigerian meal plan by goal, day and meal time." />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">
+    <div class="brand-mark">NF</div>
+    <div class="brand-word">Naija Fuel<span>Training &amp; Nutrition</span></div>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link active" href="planner.html">Meal Planner</a>
+    <a class="nav-link" href="meals.html">Meal Library</a>
+    <a class="nav-link" href="workouts.html">Workouts</a>
+    <a class="nav-link" href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <a class="btn-primary" href="meals.html">Browse meals</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu"></button>
+  </div>
+</nav>
+<div class="mobile-menu-scrim" id="mobileScrim"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-head">
+    <div class="brand-word">Menu</div>
+    <button class="modal-close" id="navClose" aria-label="Close menu"></button>
+  </div>
+  <a class="nav-link" href="index.html">Home</a>
+  <a class="nav-link active" href="planner.html">Meal Planner</a>
+  <a class="nav-link" href="meals.html">Meal Library</a>
+  <a class="nav-link" href="workouts.html">Workouts</a>
+  <a class="nav-link" href="about.html">About</a>
+</div>
+
+<header class="page-hero">
+  <div class="section-label">Meal planner</div>
+  <h1>Build your week, meal by meal</h1>
+  <p>Pick a goal, a day, and a meal time, then choose a Nigerian dish to fill it. Your plan saves automatically in this browser.</p>
+</header>
+
+<!-- ══ WEEK STRIP ══ -->
+<section class="section-tight">
+  <div class="wrap">
+    <div class="week-head">
+      <div>
+        <div class="section-label">This week</div>
+        <h2 class="section-heading">Your plan at a glance</h2>
+      </div>
+      <div class="week-actions">
+        <button class="btn-small" onclick="exportPlan()">Export plan</button>
+        <button class="btn-small" onclick="clearPlan()">Clear week</button>
+      </div>
+    </div>
+    <div class="week-strip" id="weekStrip"></div>
+  </div>
+</section>
+
+<!-- ══ PLANNER ══ -->
+<section class="section-tight">
+  <div class="wrap">
+    <div class="planner-grid">
+
+      <div class="panel">
+        <h2>Add a meal</h2>
+        <p class="panel-sub">Pick a goal, day, and meal time — then choose a Nigerian dish to fill it.</p>
+
+        <form id="mealForm">
+          <div class="field-grid">
+            <div class="field-row">
+              <label for="goal">Goal</label>
+              <select id="goal" name="goal">
+                <option value="muscle">Muscle gain</option>
+                <option value="fatLoss">Fat loss</option>
+                <option value="maintenance">Maintenance</option>
+              </select>
+            </div>
+            <div class="field-row">
+              <label for="day">Day</label>
+              <select id="day" name="day"></select>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field-row">
+              <label for="mealType">Meal time</label>
+              <select id="mealType" name="mealType">
+                <option>Breakfast</option>
+                <option>Lunch</option>
+                <option>Dinner</option>
+                <option>Snack</option>
+              </select>
+            </div>
+            <div class="field-row">
+              <label for="mealChoice">Nigerian meal</label>
+              <select id="mealChoice" name="mealChoice"></select>
+            </div>
+          </div>
+
+          <div class="item-preview" id="mealPreview"></div>
+
+          <button type="submit" class="submit-btn">Add to plan</button>
+        </form>
+
+        <div class="tip-box" id="goalTip"></div>
+
+        <div class="suggestion-panel">
+          <h3>Recommended for your goal</h3>
+          <div id="suggestionCard"></div>
+          <button type="button" id="suggestMeal" class="btn-secondary">Show another suggestion</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="summary-top">
+          <div>
+            <h2>Your current plan</h2>
+            <p class="panel-sub" style="margin-bottom:0;">Saved automatically in this browser.</p>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-chip"><div class="label">Meals</div><div class="value" id="totalMeals">0</div></div>
+          <div class="stat-chip accent"><div class="label">Calories / week</div><div class="value" id="totalCalories">0</div></div>
+          <div class="stat-chip"><div class="label">Avg / day</div><div class="value" id="avgCalories">0</div></div>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr><th>Day</th><th>Meal</th><th>Dish</th><th>Cal</th><th></th></tr>
+          </thead>
+          <tbody id="planBody">
+            <tr class="empty-row"><td colspan="5">No meals added yet — build your first day on the left.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand"><div class="brand-mark">NF</div><div class="footer-brand-word">Naija Fuel</div></div>
+      <p>Training and nutrition built around real Nigerian meals and realistic weekly routines, for muscle gain, fat loss, or maintenance.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="index.html">Home</a>
+      <a href="planner.html">Meal Planner</a>
+      <a href="meals.html">Meal Library</a>
+      <a href="workouts.html">Workouts</a>
+    </div>
+    <div class="footer-col">
+      <h4>Goals</h4>
+      <a href="meals.html">Muscle gain</a>
+      <a href="meals.html">Fat loss</a>
+      <a href="meals.html">Maintenance</a>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="about.html">Our approach</a>
+      <a href="about.html">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; <span id="footerYear"></span> Naija Fuel. Calorie values are researched estimates and vary by recipe, portion and individual.</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<div class="modal-bg" id="dayModalBg" onclick="closeDayModalOnBg(event)">
+  <div class="modal" id="dayModal">
+    <div class="modal-top">
+      <h3 id="dayModalTitle"></h3>
+      <button class="modal-close" onclick="closeDayModal()" aria-label="Close" id="dayModalCloseBtn"></button>
+    </div>
+    <div id="dayModalBody"></div>
+  </div>
+</div>
+
+<script src="assets/data.js"></script>
+<script src="assets/nav.js"></script>
+<script>
+  document.getElementById('navToggle').innerHTML = ICON.menu;
+  document.getElementById('navClose').innerHTML = ICON.close;
+  document.getElementById('dayModalCloseBtn').innerHTML = ICON.close;
+</script>
+<script src="assets/planner.js"></script>
+</body>
+</html>
